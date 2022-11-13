@@ -43,7 +43,7 @@ public class MService extends Service {
             }
         }
         if(intent.getAction().equals("sucess-event-action")){
-            Log.e("Action",intent.getStringExtra("sucess"));
+            Log.e("Action",intent.getStringExtra("STATUS"));
         Intent mIntent = new Intent("custom-event-name");
         mIntent.putExtra("message","Success received Message");
         sendBroadcast(mIntent); //return this to ui
@@ -52,21 +52,21 @@ public class MService extends Service {
             try {
             Intent sendIntent = new Intent();
             sendIntent.setAction(TWOSCREENS_ACTION);
-            sendIntent.putExtra("SUCCESS",intent.getStringExtra("sucess"));
+            sendIntent.putExtra("STATUS",intent.getStringExtra("STATUS"));
             sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             } catch (ActivityNotFoundException e) {
                 // Define what your app should do if no activity can handle the intent.
             }
         }else  if(intent.getAction().equals("fail-event-action")){
-            Log.e("Action",intent.getStringExtra("fail"));
+            Log.e("Action",intent.getStringExtra("STATUS"));
             Intent mIntent = new Intent("custom-event-name");
             mIntent.putExtra("message","Faill received Message");
             sendBroadcast(mIntent); //return this to ui activity
             try {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(TWOSCREENS_ACTION);
-                sendIntent.putExtra("FAIL",intent.getStringExtra("fail"));
+                sendIntent.putExtra("STATUS",intent.getStringExtra("STATUS"));
                 sendIntent.setType("text/plain");
                 startActivity(sendIntent);
             } catch (ActivityNotFoundException e) {

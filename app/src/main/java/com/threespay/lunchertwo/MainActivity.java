@@ -67,13 +67,13 @@ private Intent intent;
         if(view.getId() == R.id.successBtn){
             Intent intent = new Intent(this, MService.class);
             intent.setAction("sucess-event-action");
-            intent.putExtra("sucess","1");
+            intent.putExtra("STATUS","1");
             this.startService(intent);
         }
         if(view.getId() == R.id.failBtn){
             Intent intent = new Intent(this, MService.class);
             intent.setAction("fail-event-action");
-            intent.putExtra("fail","0");
+            intent.putExtra("STATUS","0");
             this.startService(intent);
         }
     }
