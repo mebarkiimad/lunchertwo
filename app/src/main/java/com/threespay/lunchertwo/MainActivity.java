@@ -3,7 +3,6 @@ package com.threespay.lunchertwo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -12,7 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import javax.security.auth.login.LoginException;
+import com.threespay.lunchertwo.model.BaseLinkyPosHeader;
+import com.threespay.lunchertwo.model.BaseLinkyPosResponse;
+import com.threespay.lunchertwo.model.BaseLinkyPosSignature;
+import com.threespay.lunchertwo.service.MService;
+import com.threespay.lunchertwo.util.Constants;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,MessageListener {
 
@@ -24,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 private Intent intent;
     private TextView transactionTextView;
     private TextView priceTextView;
-    private Button successBtn,failBtn;
+    private Button successBtn,failBtn,startServiceBtn,stopServiceBtn;
     private BroadcastReceiver broadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,24 +38,10 @@ private Intent intent;
         failBtn = (Button)findViewById(R.id.failBtn);
         successBtn.setOnClickListener(this);
         failBtn.setOnClickListener(this);
-//       intent = getIntent();
-//       try {
-//           String transaction = intent.getStringExtra("TRANSACTION");
-//           String amount = intent.getStringExtra("AMOUNT");
-//           String currency = intent.getStringExtra("CURRENCY");
-//           if(transaction.equals("")){
-//               transactionTextView = (TextView)findViewById(R.id.transaction_textview);
-//               transactionTextView.setText(transaction);
-//           }
-//           if(!transaction.equals("")) {
-//               priceTextView = (TextView)findViewById(R.id.price_textview);
-//               priceTextView.setText(new StringBuilder().append(amount).append(" ").append(currency).toString());
-//           }
-//       }catch(Exception error){
-//
-//         Log.e("imad",error.getMessage());
-//       }
-
+        startServiceBtn = (Button)findViewById(R.id.startServiceBtn);
+        startServiceBtn.setOnClickListener(this);
+        stopServiceBtn = (Button)findViewById(R.id.stopServiceBtn);
+        stopServiceBtn.setOnClickListener(this);
     }
 
     @Override
@@ -65,25 +54,39 @@ private Intent intent;
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.successBtn){
-            Intent intent = new Intent(this, MService.class);
-            intent.setAction("sucess-event-action");
-            intent.putExtra("STATUS","1");
-            this.startService(intent);
+            sendMessage("1");
         }
         if(view.getId() == R.id.failBtn){
-            Intent intent = new Intent(this, MService.class);
-            intent.setAction("fail-event-action");
-            intent.putExtra("STATUS","0");
-            this.startService(intent);
+            sendMessage("0");
+        }
+        if(view.getId() == R.id.startServiceBtn){
+            startService();
+        }
+        if(view.getId() == R.id.stopServiceBtn){
+            endService();
         }
     }
     @Override
     public void onMessage(String message) {
-        Log.e("Message","Braid dead");
+        Log.e("Message","We got a message");
     }
     @Override
     protected void onDestroy() {
         unregisterReceiver(broadcastReceiver);
         super.onDestroy();
+    }
+    public void startService(){
+        Intent myIntent = new Intent(Constants.ACTION_START);
+        startService(myIntent);
+    }
+    public void endService(){
+        Intent myIntent = new Intent(Constants.ACTION_STOP_SERVICE);
+        startService(myIntent);
+    }
+    public void sendMessage(String value){
+        Intent intent = new Intent(this, MService.class);
+        intent.setAction(Constants.ACTION_DO_MESSAGE);
+        intent.putExtra("STATUS",value);
+        this.startService(intent);
     }
 }

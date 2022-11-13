@@ -23,7 +23,7 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <service android:name=".MService" android:exported="true" android:enabled="true">
+        <service android:name=".service.MService" android:exported="true" android:enabled="true">
             <intent-filter>
                 <action android:name="com.threespay.lunchertwo.MService" />
 

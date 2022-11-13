@@ -8,6 +8,26 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/stopServiceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_textview"
+        app:layout_constraintEnd_toStartOf="@+id/successBtn"
+        app:layout_constraintStart_toEndOf="@+id/startServiceBtn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startServiceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_textview"
+        app:layout_constraintEnd_toStartOf="@+id/stopServiceBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/failBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +44,7 @@
         android:text="Success"
         app:layout_constraintBottom_toTopOf="@+id/transaction_textview"
         app:layout_constraintEnd_toStartOf="@+id/failBtn"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/stopServiceBtn"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
